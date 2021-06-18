@@ -51,6 +51,15 @@
     <ClCompile Include="Photon.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Photon_Map.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PhotonTracer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PhotonMapper.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="accel_struct.hpp">
@@ -108,6 +117,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Photon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Photon_Map.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PhotonTracer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PhotonMapper.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

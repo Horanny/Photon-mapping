@@ -52,8 +52,23 @@ bool Parallelogram::rayIntersection(Interaction& interaction, const Ray& ray)
         if (material != nullptr)
         {
             interaction.material = (void*)material;
+			
+			if (material->type == BRDF::Type::DIFFUSE)
+			{
+				//cout << "diffuse!" << endl;
+				interaction.material_type = Interaction::MaterialType::DIFFUSE;
+			}
+
+			else if(material->type == BRDF::Type::SPECULAR)
+			interaction.material_type = Interaction::MaterialType::SPECULAR;
+
+			else if (material->type == BRDF::Type::TRANSMISSION)
+			interaction.material_type = Interaction::MaterialType::TRANSMISSION;
+
         }
         interaction.type = Interaction::Type::GEOMETRY;
+
+
         return true;
     }
     return false;
@@ -116,8 +131,21 @@ bool Sphere::rayIntersection(Interaction& interaction, const Ray& ray)
     if (material != nullptr)
     {
         interaction.material = (void*)material;
+		if (material->type == BRDF::Type::DIFFUSE)
+		{
+			//cout << "diffuse!" << endl;
+			interaction.material_type = Interaction::MaterialType::DIFFUSE;
+		}
+
+		else if (material->type == BRDF::Type::SPECULAR)
+			interaction.material_type = Interaction::MaterialType::SPECULAR;
+
+		else if (material->type == BRDF::Type::TRANSMISSION)
+			interaction.material_type = Interaction::MaterialType::TRANSMISSION;
+
     }
     interaction.type = Interaction::Type::GEOMETRY;
+
 
     return true;
 }
@@ -198,6 +226,19 @@ bool TriangleMesh::raySingleTriangleIntersection(Interaction& interaction, const
 	if (material != nullptr)
 	{
 		interaction.material = (void*)material;
+
+		if (material->type == BRDF::Type::DIFFUSE)
+		{
+			//cout << "diffuse!" << endl;
+			interaction.material_type = Interaction::MaterialType::DIFFUSE;
+		}
+
+		else if (material->type == BRDF::Type::SPECULAR)
+			interaction.material_type = Interaction::MaterialType::SPECULAR;
+
+		else if (material->type == BRDF::Type::TRANSMISSION)
+			interaction.material_type = Interaction::MaterialType::TRANSMISSION;
+
 	}
 	interaction.type = Interaction::Type::GEOMETRY;
 
@@ -394,6 +435,15 @@ bool TriangleMesh::rayIntersection(Interaction& interaction, const Ray& ray)
         if (material != nullptr)
         {
             interaction.material = material;
+			if (material->type == BRDF::Type::DIFFUSE)
+				interaction.material_type = Interaction::MaterialType::DIFFUSE;
+
+			else if (material->type == BRDF::Type::SPECULAR)
+				interaction.material_type = Interaction::MaterialType::SPECULAR;
+
+			else if (material->type == BRDF::Type::TRANSMISSION)
+				interaction.material_type = Interaction::MaterialType::TRANSMISSION;
+
         }
         interaction.type = Interaction::Type::GEOMETRY;
 

@@ -22,7 +22,7 @@ BRDF::BRDF()
  */
 
 IdealDiffusion::IdealDiffusion(Eigen::Vector3f diff)
-    : reflectivity(diff)
+    : reflectivity(diff),type(BRDF::Type::DIFFUSE)
 {
 }
     
@@ -104,7 +104,7 @@ bool IdealDiffusion::isDelta() const
  */
 
 IdealSpecular::IdealSpecular(Eigen::Vector3f spec)
-    : reflectivity(spec)
+    : reflectivity(spec),type(BRDF::Type::SPECULAR)
 {
 }
 
@@ -139,7 +139,8 @@ bool IdealSpecular::isDelta() const
 
 IdealTransmission::IdealTransmission(Eigen::Vector3f reflect, float idx_refract)
     : reflectivity(reflect)
-    , ior(idx_refract)
+    , ior(idx_refract),
+	type(BRDF::Type::TRANSMISSION)
 {
 
 }

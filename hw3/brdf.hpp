@@ -12,6 +12,15 @@
 class BRDF
 {
 public:
+	enum Type
+	{
+		DIFFUSE,
+		SPECULAR,
+		TRANSMISSION
+	};
+
+	Type type;
+
     BRDF();
     
     /* Evaluate the BRDF, namely, return the BRDF value at the given interation */
@@ -46,6 +55,8 @@ public:
     virtual float samplePdf(const Interaction& interact) override;
     virtual float sample(Interaction& interact) override;
     virtual bool isDelta() const override;
+
+	Type type;
 };
 
 
@@ -64,6 +75,8 @@ public:
     virtual float samplePdf(const Interaction& interact) override;
     virtual float sample(Interaction& interact) override;
     virtual bool isDelta() const override;
+
+	Type type;
 };
 
 
@@ -89,4 +102,6 @@ public:
     virtual float samplePdf(const Interaction& interact) override;
     virtual float sample(Interaction& interact) override;
     virtual bool isDelta() const override;
+
+	Type type;
 };

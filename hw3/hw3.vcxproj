@@ -28,6 +28,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objloader.cpp" />
     <ClCompile Include="Photon.cpp" />
+    <ClCompile Include="PhotonMapper.cpp" />
+    <ClCompile Include="PhotonTracer.cpp" />
+    <ClCompile Include="Photon_Map.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="utils.cpp" />
@@ -45,6 +48,9 @@
     <ClInclude Include="light.hpp" />
     <ClInclude Include="objloader.hpp" />
     <ClInclude Include="Photon.h" />
+    <ClInclude Include="PhotonMapper.h" />
+    <ClInclude Include="PhotonTracer.h" />
+    <ClInclude Include="Photon_Map.h" />
     <ClInclude Include="progressbar.hpp" />
     <ClInclude Include="ray.hpp" />
     <ClInclude Include="scene.hpp" />
@@ -169,7 +175,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>G:\openmv\eigen-3.3.9\eigen-3.3.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\OpenGL\ann_1.1.2\ann_1.1.2\include;G:\openmv\eigen-3.3.9\eigen-3.3.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>

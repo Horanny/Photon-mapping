@@ -42,6 +42,12 @@ void PathTracingIntegrator::render()
 
     /* Initialize a progress bar */
     progressbar progress_bar(res_x * res_y);
+	int nEmittedPhotons = 100;
+
+	PhotonMapper* map;
+	PhotonTracer tracer(scene,nEmittedPhotons);
+	tracer.PhotonTracing(map);
+	map->LoadToKDtree();
 
 #ifndef NO_OMP
     #pragma omp parallel for private(dy)
@@ -55,34 +61,33 @@ void PathTracingIntegrator::render()
 			int N = 1;
 			vector<float> delx = unif(dx, dx+1, N);
 			vector<float> dely = unif(dy, dy+1, N);
-
+	
 			Eigen::Vector3f totalRadiance(0, 0, 0);
-
+	
 			for (int i = 0; i < N; i++)
 			{
 				float deltax = delx[i];
 				for (int j = 0; j < N; j++)
 				{
 					float deltay = dely[j];
-					
-
+				
 					Ray ray = camera->generateRay(deltax, deltay);
 					
 					//if ray r hits the scene at p
-					Interaction interaction;
-					if (scene->intersection(ray, interaction))
-					{
-						totalRadiance += radiance(ray, interaction);
-					}
+					//Interaction interaction;
+					//if (scene->intersection(ray, interaction))
+					//{
+					//	totalRadiance += radiance(ray, interaction);
+					//}
 				}
 			}
 			totalRadiance /= (N*N);
-
+	
 			camera->setPixel(dx, dy, totalRadiance);
-
-#ifndef NO_OMP
+	
+	#ifndef NO_OMP
             #pragma omp critical
-#endif
+	#endif
             progress_bar.update();
         }
     }
@@ -266,4 +271,18 @@ Eigen::Vector3f PathTracingIntegrator::shadetest(Ray ray, Interaction interactio
 		}
 	}
 	return L;
+}
+
+Eigen::Vector3f PathTracingIntegrator::photonShade(Ray ray, Interaction interaction)
+{
+	//generate ray from camera
+
+	int count = 0;
+	while (count < MAX_COUNT)
+	{
+		//find the intersection point
+		//if ray hits light source, compute emission
+	}
+
+	return Eigen::Vector3f();
 }

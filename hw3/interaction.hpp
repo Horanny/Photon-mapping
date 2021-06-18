@@ -1,6 +1,6 @@
 #pragma once
 #include "Eigen/Dense"
-
+//#include "PhotonTracer.h"
 
 /**
  * The Phong lighting model at the interacting point
@@ -24,7 +24,14 @@ struct Interaction
 	{
 		NONE,
 		GEOMETRY,
-		LIGHT
+		LIGHT,
+	};
+
+	enum MaterialType
+	{
+		DIFFUSE,
+		SPECULAR,
+		TRANSMISSION
 	};
 
 	/* Distance (in units of t) to intersection point */
@@ -43,6 +50,7 @@ struct Interaction
 	Eigen::Vector3f wo;
 	/* Type of interacting object */
 	Type type;
+	MaterialType material_type;
 
 	Interaction() : entry_dist(-1), exit_dist(-1), material(nullptr), type(Type::NONE) {}
 };

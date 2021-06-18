@@ -31,6 +31,10 @@ public:
 	virtual float samplePdf(const Interaction& ref_it, Eigen::Vector3f pos) = 0;
 	virtual bool rayIntersection(Interaction& interaction, const Ray& ray) = 0;
 
+	virtual float totalpdf(Eigen::Vector3f dir) = 0;
+	virtual Eigen::Vector3f SimplySample() = 0;
+	Ray generateRay(Eigen::Vector3f sample);
+	
 };
 
 
@@ -50,4 +54,6 @@ public:
 	virtual Eigen::Vector3f sample(Interaction& ref_it, float* pdf = nullptr) override;
 	virtual float samplePdf(const Interaction& ref_it, Eigen::Vector3f pos) override;
 	virtual bool rayIntersection(Interaction& interaction, const Ray& ray) override;
+	virtual Eigen::Vector3f SimplySample() override;
+	virtual float totalpdf(Eigen::Vector3f dir) override;
 };

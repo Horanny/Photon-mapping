@@ -22,7 +22,6 @@
 #define CONF_DEFAULT_MAX_DEPTH 5
 #define CONF_DEFAULT_INTEGRAL_METHOD "mis"
 
-
 struct Config
 {
     /* The number of using threads */
