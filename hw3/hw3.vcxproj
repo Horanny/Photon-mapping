@@ -32,6 +32,20 @@
     <ClCompile Include="PhotonTracer.cpp" />
     <ClCompile Include="Photon_Map.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="src\ANN.cpp" />
+    <ClCompile Include="src\bd_fix_rad_search.cpp" />
+    <ClCompile Include="src\bd_pr_search.cpp" />
+    <ClCompile Include="src\bd_search.cpp" />
+    <ClCompile Include="src\bd_tree.cpp" />
+    <ClCompile Include="src\brute.cpp" />
+    <ClCompile Include="src\kd_dump.cpp" />
+    <ClCompile Include="src\kd_fix_rad_search.cpp" />
+    <ClCompile Include="src\kd_pr_search.cpp" />
+    <ClCompile Include="src\kd_search.cpp" />
+    <ClCompile Include="src\kd_split.cpp" />
+    <ClCompile Include="src\kd_tree.cpp" />
+    <ClCompile Include="src\kd_util.cpp" />
+    <ClCompile Include="src\perf.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
@@ -54,10 +68,24 @@
     <ClInclude Include="progressbar.hpp" />
     <ClInclude Include="ray.hpp" />
     <ClInclude Include="scene.hpp" />
+    <ClInclude Include="src\bd_tree.h" />
+    <ClInclude Include="src\kd_fix_rad_search.h" />
+    <ClInclude Include="src\kd_pr_search.h" />
+    <ClInclude Include="src\kd_search.h" />
+    <ClInclude Include="src\kd_split.h" />
+    <ClInclude Include="src\kd_tree.h" />
+    <ClInclude Include="src\kd_util.h" />
+    <ClInclude Include="src\pr_queue.h" />
+    <ClInclude Include="src\pr_queue_k.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="tiny_obj_loader.hpp" />
     <ClInclude Include="utils.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ANN.props" />
+    <None Include="eigen.props" />
+    <None Include="src\Makefile" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -111,16 +139,21 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>G:\OpenGL\ann_1.1.2\ann_1.1.2\include;$(LibraryPath)</LibraryPath>
     <IncludePath>G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;$(IncludePath)</IncludePath>
+    <LibraryPath>
+    </LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Program Files %28x86%29\Eigen3\include\eigen3\Eigen;$(IncludePath)</IncludePath>
+    <IncludePath>G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;$(IncludePath)</IncludePath>
+    <LibraryPath>G:\OpenGL\ann_1.1.2\ann_1.1.2\include;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;$(IncludePath)</IncludePath>
+    <IncludePath>G:\cs171\assignment3-Horanny\Coding\3rdLibs;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,11 +161,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\OpenGL\ann_1.1.2\ann_1.1.2\include;G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>G:\OpenGL\ann_1.1.2\ann_1.1.2\lib;G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ANN.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -141,11 +175,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Eigen3\include\eigen3\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\OpenGL\ann_1.1.2\ann_1.1.2\include;C:\Program Files %28x86%29\Eigen3\include\eigen3\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>G:\OpenGL\ann_1.1.2\ann_1.1.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ANN.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,15 +191,20 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>G:\cs171\assignment3-Horanny\Coding\3rdLibs\Eigen;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
       <StackReserveSize>16000000</StackReserveSize>
       <StackCommitSize>16000000</StackCommitSize>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <SubSystem>NotSet</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -175,16 +215,18 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>G:\OpenGL\ann_1.1.2\ann_1.1.2\include;G:\openmv\eigen-3.3.9\eigen-3.3.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\OpenGL\ann_1.1.2\ann_1.1.2\include;G:\cs171\assignment3-Horanny\Coding\3rdLibs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>G:\OpenGL\ann_1.1.2\ann_1.1.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <StackReserveSize>16000000</StackReserveSize>
       <StackCommitSize>16000000</StackCommitSize>
+      <SubSystem>NotSet</SubSystem>
+      <AdditionalDependencies>ANN.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>ANN.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

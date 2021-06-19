@@ -281,8 +281,16 @@ Eigen::Vector3f PathTracingIntegrator::photonShade(Ray ray, Interaction interact
 	while (count < MAX_COUNT)
 	{
 		//find the intersection point
-		//if ray hits light source, compute emission
+		//if ray hits light source, compute light emission
+		//generate BRDF based on the material of intersection point
+		//compute distributions of reflection, and record reflect direction and reflect type
+		//if reflect type is diffuse, then ISDIFFUSE = TRUE, break
+		//else (reflect type is specular/transmission£©, compute next ray
 	}
+	//if ISDIFFUSE = TRUE, then
+	//1.find nearest n photons in kd tree
+	//2.use density estimation
+	//3.compute final radiance
 
 	return Eigen::Vector3f();
 }

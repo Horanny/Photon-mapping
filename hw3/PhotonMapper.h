@@ -1,4 +1,6 @@
 #pragma once
+#pragma comment(lib, "ANN.lib")
+
 #include <Eigen/Dense>
 #include <vector>
 #include <algorithm>
@@ -8,6 +10,9 @@
 #include <ANN/ANN.h>
 #include  "constant.hpp"
 #include "ray.hpp"
+#include "interaction.hpp"
+#include "brdf.hpp"
+
 using namespace std;
 
 struct Photon {
@@ -29,7 +34,8 @@ public:
 	Eigen::Vector3f trace(Ray ray, int depth);
 	//given a ray, collects the photons around the intersection point 
 	Eigen::Vector3f gatherPhotons(Ray ray);
-
+	//compute radiance using NN algorithm
+	Eigen::Vector3f computeRadiance(Eigen::Vector3f p, Interaction interaction);
 
 	vector<Photon> photonMap;
 	int num;

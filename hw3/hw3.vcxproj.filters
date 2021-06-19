@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\src">
+      <UniqueIdentifier>{83cb80d3-de61-4069-80cd-2e5ea5c4e51b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="accel_struct.cpp">
@@ -59,6 +62,48 @@
     </ClCompile>
     <ClCompile Include="PhotonMapper.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ANN.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bd_fix_rad_search.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bd_pr_search.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bd_search.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bd_tree.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\brute.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kd_dump.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kd_fix_rad_search.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kd_pr_search.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kd_search.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kd_split.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kd_tree.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kd_util.cpp">
+      <Filter>头文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\perf.cpp">
+      <Filter>头文件\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,5 +173,39 @@
     <ClInclude Include="PhotonMapper.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\bd_tree.h">
+      <Filter>头文件\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kd_fix_rad_search.h">
+      <Filter>头文件\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kd_pr_search.h">
+      <Filter>头文件\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kd_search.h">
+      <Filter>头文件\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kd_split.h">
+      <Filter>头文件\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kd_tree.h">
+      <Filter>头文件\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kd_util.h">
+      <Filter>头文件\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pr_queue.h">
+      <Filter>头文件\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pr_queue_k.h">
+      <Filter>头文件\src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ANN.props" />
+    <None Include="eigen.props" />
+    <None Include="src\Makefile">
+      <Filter>头文件\src</Filter>
+    </None>
   </ItemGroup>
 </Project>
