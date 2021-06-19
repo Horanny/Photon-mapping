@@ -5,7 +5,7 @@ PhotonTracer::PhotonTracer(Scene* scn, int nEmittedPhotons)
 {
 }
 
-void PhotonTracer::PhotonTracing(PhotonMapper* map)
+void PhotonTracer::PhotonTracing(PhotonMapper map)
 {
 
 	for (int i = 0; i < nEmittedPhotons; i++)
@@ -43,7 +43,7 @@ void PhotonTracer::PhotonTracing(PhotonMapper* map)
 					p.pos = interaction.entry_point;
 					p.dir = interaction.wi;
 					p.power = power;
-					map->storePhoton(p);
+					map.storePhoton(p);
 				}
 				//else if (interaction.type == Interaction::MaterialType::SPECULAR)
 				//else if (interaction.type == Interaction::MaterialType::TRANSMISSION)
@@ -73,5 +73,4 @@ void PhotonTracer::PhotonTracing(PhotonMapper* map)
 		}	
 	}
 }
-
 

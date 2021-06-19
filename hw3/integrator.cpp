@@ -41,10 +41,10 @@ void PathTracingIntegrator::render()
 	progressbar progress_bar(res_x * res_y);
 	int nEmittedPhotons = 100;
 
-	PhotonMapper *map;
+	PhotonMapper map;
 	PhotonTracer tracer(scene, nEmittedPhotons);
 	tracer.PhotonTracing(map);
-	map->LoadToKDtree();
+	map.LoadToKDtree();
 
 #ifndef NO_OMP
 #pragma omp parallel for private(dy)
@@ -74,7 +74,8 @@ void PathTracingIntegrator::render()
 					Interaction interaction;
 					if (scene->intersection(ray, interaction))
 					{
-						totalRadiance += radiance(ray, interaction,map);
+						//photonShade(ray, interaction, testmap);
+						totalRadiance += radiance(ray, interaction, &map);
 					}
 				}
 			}
@@ -88,9 +89,10 @@ void PathTracingIntegrator::render()
 			progress_bar.update();
 		}
 	}
+	annClose();
 }
 
-Eigen::Vector3f PathTracingIntegrator::radiance(Ray ray, Interaction interaction, PhotonMapper* map)
+Eigen::Vector3f PathTracingIntegrator::radiance(Ray ray, Interaction interaction, PhotonMapper *map)
 {
 	/** TODO */
 	//UNREACHABLE;
@@ -103,9 +105,9 @@ Eigen::Vector3f PathTracingIntegrator::radiance(Ray ray, Interaction interaction
 	if (interaction.type == Interaction::Type::GEOMETRY)
 	{
 		interaction.wo = -1 * ray.direction;
-		//return shade(ray, interaction);
 		//return shadetest(ray, interaction);
 		return photonShade(ray, interaction, map);
+		//return Eigen::Vector3f(0, 0, 0);
 	}
 }
 

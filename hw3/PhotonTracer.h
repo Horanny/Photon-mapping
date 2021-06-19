@@ -19,9 +19,9 @@ public:
 	int nEmittedPhotons;
 
 	PhotonTracer(Scene* scn,int nEmittedPhotons);
-	void PhotonTracing(PhotonMapper* map);
+	void PhotonTracing(PhotonMapper map);
 
 protected:
 	Scene* scene;
-
+	vector<Photon> m_photon;
 };

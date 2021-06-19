@@ -24,11 +24,12 @@ struct Photon {
 
 class PhotonMapper {
 public:
+
 	PhotonMapper();
 	~PhotonMapper();
 
-	void storePhoton(Photon &p);
-	void storeCausticPhoton(Photon &p);
+	void storePhoton(Photon p);
+	void storeCausticPhoton(Photon p);
 	void LoadToKDtree();
 	
 	Eigen::Vector3f trace(Ray ray, int depth);
@@ -44,7 +45,7 @@ public:
 	ANNdistArray near_neighbour_dists; // near neighbour distances
 	ANNkd_tree* kdTree; //kd tree
 
-	vector<Photon>causticsMap;
+	//vector<Photon>causticsMap;
 
 };
 

@@ -3,25 +3,25 @@
 PhotonMapper::PhotonMapper()
 {
 	num = 0;
-	near_neighbour_idx = new ANNidx[ESTIMATE];
-	near_neighbour_dists = new ANNdist[ESTIMATE];
+	near_neighbour_idx = new ANNidx[ESTIMATE +1];
+	near_neighbour_dists = new ANNdist[ESTIMATE + 1];
 }
 
 PhotonMapper::~PhotonMapper()
 {
-	delete[] near_neighbour_idx;
-	delete[] near_neighbour_dists;
-	delete kdTree;
+	//delete[] near_neighbour_idx;
+	//delete[] near_neighbour_dists;
+	//delete kdTree;
 }
 
-void PhotonMapper::storePhoton(Photon &p)
+void PhotonMapper::storePhoton(Photon p)
 {
 	photonMap.push_back(p);
 }
 
-void PhotonMapper::storeCausticPhoton(Photon &p)
+void PhotonMapper::storeCausticPhoton(Photon p)
 {
-	causticsMap.push_back(p);
+	//causticsMap.push_back(p);
 }
 
 void PhotonMapper::LoadToKDtree()

@@ -19,7 +19,7 @@ public:
 	virtual ~Integrator() = default;
 	
 	virtual void render() = 0;
-	virtual Eigen::Vector3f radiance(Ray ray, Interaction interaction, PhotonMapper* map) = 0;
+	virtual Eigen::Vector3f radiance(Ray ray, Interaction interaction, PhotonMapper *map) = 0;
 };
 
 
@@ -32,10 +32,10 @@ class PathTracingIntegrator : public Integrator
 public:
     PathTracingIntegrator(Scene* scene, Camera* camera);
     virtual void render() override;
-    virtual Eigen::Vector3f radiance(Ray ray, Interaction interaction,PhotonMapper* map) override;
+    virtual Eigen::Vector3f radiance(Ray ray, Interaction interaction,PhotonMapper *map) override;
 	//Eigen::Vector3f shade(Ray ray, Interaction interaction);
 	Eigen::Vector3f shadetest(Ray ray, Interaction interaction);
 	
-	Eigen::Vector3f photonShade(Ray ray, Interaction interaction, PhotonMapper* map);
+	Eigen::Vector3f photonShade(Ray ray, Interaction interaction, PhotonMapper *map);
 };	
 
