@@ -14,65 +14,62 @@ using namespace mathutils;
 
 extern Config conf;
 
-
 /**
  * Integrator class
  */
 
-Integrator::Integrator(Scene* scn, Camera* cam)
-    : scene(scn)
-    , camera(cam)
+Integrator::Integrator(Scene *scn, Camera *cam)
+	: scene(scn), camera(cam)
 {
 }
-
 
 /**
  * PathTracingIntegrator class
  */
 
-PathTracingIntegrator::PathTracingIntegrator(Scene* scene, Camera* camera)
-    : Integrator(scene, camera)
-{  
+PathTracingIntegrator::PathTracingIntegrator(Scene *scene, Camera *camera)
+	: Integrator(scene, camera)
+{
 }
 
 void PathTracingIntegrator::render()
 {
-    int dx, dy;
-    int res_x = camera->getFilm().resolution.x(), res_y = camera->getFilm().resolution.y();
+	int dx, dy;
+	int res_x = camera->getFilm().resolution.x(), res_y = camera->getFilm().resolution.y();
 
-    /* Initialize a progress bar */
-    progressbar progress_bar(res_x * res_y);
+	/* Initialize a progress bar */
+	progressbar progress_bar(res_x * res_y);
 	int nEmittedPhotons = 100;
 
-	PhotonMapper* map;
-	PhotonTracer tracer(scene,nEmittedPhotons);
+	PhotonMapper *map;
+	PhotonTracer tracer(scene, nEmittedPhotons);
 	tracer.PhotonTracing(map);
 	map->LoadToKDtree();
 
 #ifndef NO_OMP
-    #pragma omp parallel for private(dy)
+#pragma omp parallel for private(dy)
 #endif
-    for (dx = 0; dx < res_x; ++dx)
-    {
-        for (dy = 0; dy < res_y; ++dy)
-        {
-            /** TODO */
-            //UNREACHABLE;
+	for (dx = 0; dx < res_x; ++dx)
+	{
+		for (dy = 0; dy < res_y; ++dy)
+		{
+			/** TODO */
+			//UNREACHABLE;
 			int N = 1;
-			vector<float> delx = unif(dx, dx+1, N);
-			vector<float> dely = unif(dy, dy+1, N);
-	
+			vector<float> delx = unif(dx, dx + 1, N);
+			vector<float> dely = unif(dy, dy + 1, N);
+
 			Eigen::Vector3f totalRadiance(0, 0, 0);
-	
+
 			for (int i = 0; i < N; i++)
 			{
 				float deltax = delx[i];
 				for (int j = 0; j < N; j++)
 				{
 					float deltay = dely[j];
-				
+
 					Ray ray = camera->generateRay(deltax, deltay);
-					
+
 					//if ray r hits the scene at p
 					//Interaction interaction;
 					//if (scene->intersection(ray, interaction))
@@ -81,25 +78,25 @@ void PathTracingIntegrator::render()
 					//}
 				}
 			}
-			totalRadiance /= (N*N);
-	
+			totalRadiance /= (N * N);
+
 			camera->setPixel(dx, dy, totalRadiance);
-	
-	#ifndef NO_OMP
-            #pragma omp critical
-	#endif
-            progress_bar.update();
-        }
-    }
+
+#ifndef NO_OMP
+#pragma omp critical
+#endif
+			progress_bar.update();
+		}
+	}
 }
 
 Eigen::Vector3f PathTracingIntegrator::radiance(Ray ray, Interaction interaction)
 {
-    /** TODO */
-    //UNREACHABLE;
+	/** TODO */
+	//UNREACHABLE;
 	if (interaction.type == Interaction::Type::LIGHT)
 	{
-		Light* light = scene->getLight();
+		Light *light = scene->getLight();
 		return light->emission(interaction.entry_point, -1 * ray.direction);
 	}
 
@@ -116,9 +113,9 @@ Eigen::Vector3f PathTracingIntegrator::shade(Ray ray, Interaction interaction)
 	Eigen::Vector3f L_dir(0, 0, 0);
 	Eigen::Vector3f L_indir(0, 0, 0);
 
-	#pragma region Contribution from the light source
-	Light* light = scene->getLight();
-	IdealDiffusion* brdf = (IdealDiffusion*)interaction.material;
+#pragma region Contribution from the light source
+	Light *light = scene->getLight();
+	IdealDiffusion *brdf = (IdealDiffusion *)interaction.material;
 
 	//Uniformly sample the light at x' (pdf_light = 1/A)
 	float *pdf;
@@ -139,16 +136,16 @@ Eigen::Vector3f PathTracingIntegrator::shade(Ray ray, Interaction interaction)
 		Eigen::Vector3f fr = brdf->eval(interaction);
 		float cos_theta = interaction.normal.dot(dir);
 		Eigen::Vector3f light_n(0, -1, 0);
-		float cos_theta_prime = light_n.dot(-1*dir);
+		float cos_theta_prime = light_n.dot(-1 * dir);
 		float dist_p_light = (samplepos - p).norm();
 
 		for (int j = 0; j < 3; j++)
 		{
-			L_dir[j] =  Li[j] * fr[j] * cos_theta * cos_theta_prime / (dist_p_light * dist_p_light) / pdf_light;
+			L_dir[j] = Li[j] * fr[j] * cos_theta * cos_theta_prime / (dist_p_light * dist_p_light) / pdf_light;
 		}
 	}
-	
-	#pragma endregion
+
+#pragma endregion
 
 	//#pragma region Contribution from other reflectors
 	//vector<float> ksivec = unif(0, 1, 1);
@@ -195,7 +192,6 @@ Eigen::Vector3f PathTracingIntegrator::shade(Ray ray, Interaction interaction)
 	//#pragma endregion
 
 	return L_dir + L_indir;
-
 }
 
 Eigen::Vector3f PathTracingIntegrator::shadetest(Ray ray, Interaction interaction)
@@ -205,8 +201,8 @@ Eigen::Vector3f PathTracingIntegrator::shadetest(Ray ray, Interaction interactio
 	Eigen::Vector3f L(0, 0, 0);
 
 	//Contribution from the light source
-	Light* light = scene->getLight();
-	IdealDiffusion* brdf = (IdealDiffusion*)interaction.material;
+	Light *light = scene->getLight();
+	IdealDiffusion *brdf = (IdealDiffusion *)interaction.material;
 	Eigen::Vector3f fr = brdf->eval(interaction);
 
 	//Uniformly sample the light at x' (pdf_light = 1/A)
@@ -225,7 +221,7 @@ Eigen::Vector3f PathTracingIntegrator::shadetest(Ray ray, Interaction interactio
 	{
 		// L_dir = L_i * f_r * cos(theta) * cos(theta') / |x' - p | ^ 2 / pdf_light
 		Eigen::Vector3f Li = light->emission(p, -1 * dir);
-		
+
 		float cos_theta = interaction.normal.dot(dir);
 		Eigen::Vector3f light_n(0, -1, 0);
 		float cos_theta_prime = light_n.dot(-1 * dir);
@@ -248,8 +244,8 @@ Eigen::Vector3f PathTracingIntegrator::shadetest(Ray ray, Interaction interactio
 		L = Eigen::Vector3f(0, 0, 0);
 		return L;
 	}
-	
-	//Ëæ»úÉú³É1¸ö·½Ïòwi²¢ÒÔpdf£¨w)·Ö²¼
+
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wiï¿½ï¿½ï¿½ï¿½pdfï¿½ï¿½w)ï¿½Ö²ï¿½
 	float hemipdf = brdf->sample(interaction);
 
 	//trace a ray
@@ -257,7 +253,7 @@ Eigen::Vector3f PathTracingIntegrator::shadetest(Ray ray, Interaction interactio
 	Interaction next_interact;
 
 	if (scene->intersection(hemiray, next_interact))
-	{		
+	{
 		//r hits an object
 		if (next_interact.type == Interaction::Type::GEOMETRY)
 		{
@@ -276,21 +272,60 @@ Eigen::Vector3f PathTracingIntegrator::shadetest(Ray ray, Interaction interactio
 Eigen::Vector3f PathTracingIntegrator::photonShade(Ray ray, Interaction interaction)
 {
 	//generate ray from camera
-
+	bool ISDIFFUSE = false;
 	int count = 0;
 	while (count < MAX_COUNT)
 	{
-		//find the intersection point
-		//if ray hits light source, compute light emission
+		count += 1;
+		//find the intersection point (in render)
+		//if ray hits light source, compute light emission (in radiance)
 		//generate BRDF based on the material of intersection point
 		//compute distributions of reflection, and record reflect direction and reflect type
 		//if reflect type is diffuse, then ISDIFFUSE = TRUE, break
-		//else (reflect type is specular/transmission£©, compute next ray
-	}
-	//if ISDIFFUSE = TRUE, then
-	//1.find nearest n photons in kd tree
-	//2.use density estimation
-	//3.compute final radiance
+		//else (reflect type is specular/transmissionï¿½ï¿½, compute next ray
 
-	return Eigen::Vector3f();
-}
+		if (interaction.type == Interaction::Type::GEOMETRY)
+		{
+			//generate the BRDF of the material
+			//compute distribution of reflection, record reflect dir and reflect type
+			BRDF *brdf = (BRDF *)interaction.material;
+			Eigen::Vector3f fr = brdf->eval(interaction);
+			float hemipdf = brdf->sample(interaction);
+
+			//if reflect type is diffusion, ISDIFFUSE = TRUE, break
+			if (interaction.material_type == Interaction::MaterialType::DIFFUSE)
+			{
+				ISDIFFUSE = true;
+				break;
+			}
+			else
+			{
+				// ideal specular/mirror/transimite
+				Ray hemiray(interaction.entry_point, interaction.wi);
+				// Interaction next_interact;
+				if (scene->intersection(hemiray, interaction))
+				{
+					if (interaction.type == Interaction::Type::LIGHT)
+					{
+						Light *light = scene->getLight();
+						return light->emission(interaction.entry_point, -1 * hemiray.direction);
+
+					} else if (interaction.type == Interaction::Type::GEOMETRY)
+					{
+						ray = hemiray;
+						interaction.wo = -1 * hemiray.direction;
+					}
+				}
+			}
+
+		//if ISDIFFUSE = TRUE, then
+		//1.find nearest n photons in kd tree
+		//2.use density estimation
+		//3.compute final radiance
+
+        if (ISDIFFUSE){
+			
+		}
+
+		return Eigen::Vector3f();
+	}
