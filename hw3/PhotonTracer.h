@@ -17,7 +17,6 @@ using namespace mathutils;
 class PhotonTracer {
 public:
 	int nEmittedPhotons;
-	PhotonMapper photonmapper;
 
 	PhotonTracer(Scene* scn,int nEmittedPhotons);
 	void PhotonTracing(PhotonMapper* map);

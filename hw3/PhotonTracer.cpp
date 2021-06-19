@@ -72,9 +72,6 @@ void PhotonTracer::PhotonTracing(PhotonMapper* map)
 				break;
 		}	
 	}
-	//}
-
-	//construct a balanced kd tree for photon map
 }
 
 
