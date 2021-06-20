@@ -165,6 +165,7 @@ float IdealTransmission::samplePdf(const Interaction& interact)
 float IdealTransmission::sample(Interaction& interact)
 {
     /** TODO */
+
 	Eigen::Vector2f sample_disk = ConcentricSampleDisk();
 	float z = sqrt(max(float(0), 1 - sample_disk[0] * sample_disk[0] - sample_disk[1] * sample_disk[1]));
 	Eigen::Vector3f newsample(sample_disk[0], sample_disk[1], z);
@@ -173,13 +174,24 @@ float IdealTransmission::sample(Interaction& interact)
 	Eigen::Vector3f p = interact.entry_point;
 	Eigen::Vector3f n = interact.normal;
 
-	Eigen::Matrix3f rot;
-	rot = Eigen::Quaternionf::FromTwoVectors(Eigen::Vector3f(0, 0, 1), n).toRotationMatrix();
+	float etai = 1, etat = ior;
+	float cosine = interact.wo.dot(n);
+	if (cosine < 0) { cosi = -cosi; } else { std::swap(etai, etat); n= -N; }
+    float eta = etai / etat;
+    float k = 1 - eta * eta * (1 - cosi * cosi);
+	// cosin fraction **2
+	if (k < 0){
+		interact.wi = Eigen::Vector3f(0,0,0);
+	} else {
+		interact.wi = eta * interact.wo + (eta * cosi - sqrtf(k)) * n;
+		interact.wi = interact.wi.normalized();
+	}
 
-	//newsample = rot * newsample;
-	newsample = rot * newsample;
+	// Eigen::Matrix3f rot;
+	// rot = Eigen::Quaternionf::FromTwoVectors(Eigen::Vector3f(0, 0, 1), n).toRotationMatrix();
+	// newsample = rot * newsample;
 	
-	interact.wi = -newsample.normalized();
+	// interact.wi = -newsample.normalized();
 
 	float pdf;
 	pdf = samplePdf(interact);
