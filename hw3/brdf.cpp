@@ -112,7 +112,8 @@ Eigen::Vector3f IdealSpecular::eval(const Interaction& interact)
 {
     /** TODO */
     //UNREACHABLE;
-	return Eigen::Vector3f(0, 0, 0);
+	return reflectivity;
+	// return Eigen::Vector3f(0, 0, 0);
 }
 
 float IdealSpecular::samplePdf(const Interaction& interact)
@@ -124,7 +125,25 @@ float IdealSpecular::samplePdf(const Interaction& interact)
 float IdealSpecular::sample(Interaction& interact)
 {
     /** TODO */
-	return 0.0;
+	Eigen::Vector2f sample_disk = ConcentricSampleDisk();
+	float z = sqrt(max(float(0), 1 - sample_disk[0] * sample_disk[0] - sample_disk[1] * sample_disk[1]));
+	Eigen::Vector3f newsample(sample_disk[0], sample_disk[1], z);
+
+	//find transformation matrix
+	Eigen::Vector3f p = interact.entry_point;
+	Eigen::Vector3f n = interact.normal;
+
+	Eigen::Matrix3f rot;
+	rot = Eigen::Quaternionf::FromTwoVectors(Eigen::Vector3f(0, 0, 1), n).toRotationMatrix();
+
+	newsample = rot * newsample;
+	
+	interact.wi = newsample.normalized();
+	float pdf;
+	pdf = samplePdf(interact);
+
+	return pdf;
+	// return 0.0;
 }
 
 bool IdealSpecular::isDelta() const
@@ -148,19 +167,47 @@ IdealTransmission::IdealTransmission(Eigen::Vector3f reflect, float idx_refract)
 Eigen::Vector3f IdealTransmission::eval(const Interaction& interact)
 {
     /** TODO */
-	return Eigen::Vector3f(0, 0, 0);
+	return reflectivity;
+	// return Eigen::Vector3f(0, 0, 0);
 }
 
 float IdealTransmission::samplePdf(const Interaction& interact)
 {
     /** TODO */
-	return 0.0;
+	Eigen::Vector3f wi = interact.wi;
+	Eigen::Vector3f n = interact.normal;
+	float pdf;
+	pdf = -n.dot(wi) / PI;
+	//float pdf = 1 / (2 * PI);
+
+	return pdf;
+	// return 0.0;
 }
 
 float IdealTransmission::sample(Interaction& interact)
 {
     /** TODO */
-	return 0.0;
+	Eigen::Vector2f sample_disk = ConcentricSampleDisk();
+	float z = sqrt(max(float(0), 1 - sample_disk[0] * sample_disk[0] - sample_disk[1] * sample_disk[1]));
+	Eigen::Vector3f newsample(sample_disk[0], sample_disk[1], z);
+
+	//find transformation matrix
+	Eigen::Vector3f p = interact.entry_point;
+	Eigen::Vector3f n = interact.normal;
+
+	Eigen::Matrix3f rot;
+	rot = Eigen::Quaternionf::FromTwoVectors(Eigen::Vector3f(0, 0, 1), n).toRotationMatrix();
+
+	//newsample = rot * newsample;
+	newsample = rot * newsample;
+	
+	interact.wi = -newsample.normalized();
+	
+	float pdf;
+	pdf = samplePdf(interact);
+
+	return pdf;
+	// return 0.0;
 }
 
 bool IdealTransmission::isDelta() const
