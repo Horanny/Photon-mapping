@@ -118,19 +118,21 @@ Eigen::Vector3f IdealSpecular::eval(const Interaction& interact)
 float IdealSpecular::samplePdf(const Interaction& interact)
 {
     /** TODO */
-	return 0.0;
+	return 1;
 }
 
 float IdealSpecular::sample(Interaction& interact)
 {
     /** TODO */
-	return 0.0;
+	interact.wi = Eigen::Vector3f(-interact.wi[0], -interact.wi[1], interact.wi[2]);
+	return 1;
 }
 
 bool IdealSpecular::isDelta() const
 {
     return true;
 }
+
 
 
 /**
