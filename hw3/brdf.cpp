@@ -112,7 +112,7 @@ Eigen::Vector3f IdealSpecular::eval(const Interaction& interact)
 {
     /** TODO */
     //UNREACHABLE;
-	return Eigen::Vector3f(0, 0, 0);
+	return reflectivity;
 }
 
 float IdealSpecular::samplePdf(const Interaction& interact)
@@ -154,13 +154,37 @@ Eigen::Vector3f IdealTransmission::eval(const Interaction& interact)
 float IdealTransmission::samplePdf(const Interaction& interact)
 {
     /** TODO */
-	return 0.0;
+	Eigen::Vector3f wi = interact.wi;
+	Eigen::Vector3f n = interact.normal;
+	float pdf;
+	pdf = -n.dot(wi) / PI;
+
+	return pdf;
 }
 
 float IdealTransmission::sample(Interaction& interact)
 {
     /** TODO */
-	return 0.0;
+	Eigen::Vector2f sample_disk = ConcentricSampleDisk();
+	float z = sqrt(max(float(0), 1 - sample_disk[0] * sample_disk[0] - sample_disk[1] * sample_disk[1]));
+	Eigen::Vector3f newsample(sample_disk[0], sample_disk[1], z);
+
+	//find transformation matrix
+	Eigen::Vector3f p = interact.entry_point;
+	Eigen::Vector3f n = interact.normal;
+
+	Eigen::Matrix3f rot;
+	rot = Eigen::Quaternionf::FromTwoVectors(Eigen::Vector3f(0, 0, 1), n).toRotationMatrix();
+
+	//newsample = rot * newsample;
+	newsample = rot * newsample;
+	
+	interact.wi = -newsample.normalized();
+
+	float pdf;
+	pdf = samplePdf(interact);
+
+	return pdf;
 }
 
 bool IdealTransmission::isDelta() const
